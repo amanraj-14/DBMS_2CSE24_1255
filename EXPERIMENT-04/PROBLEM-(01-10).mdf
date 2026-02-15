@@ -1,0 +1,171 @@
+1.Display the list of employees who have joined the company before 30th June 80 or after 31st Dec 81.
+
+SELECT *
+    -> FROM EMPLOYEE
+    -> WHERE HIREDATE < '1980-06-30'
+    ->    OR HIREDATE > '1981-12-31';
++-------+--------+---------+------+------------+------+------+--------+
+| EMPNO | ENAME  | JOB     | MGR  | HIREDATE   | SAL  | COMM | DEPTNO |
++-------+--------+---------+------+------------+------+------+--------+
+|  7788 | SCOTT  | ANALYST | 7566 | 1982-12-09 | 3000 | NULL |     40 |
+|  7876 | ADAMS  | CLERK   | 7788 | 1983-01-12 | 1100 | NULL |     20 |
+|  7934 | MILLER | CLERK   | 7782 | 1982-01-23 | 1300 | NULL |     10 |
++-------+--------+---------+------+------------+------+------+--------+
+
+2.Display the names of employees whose names have second alphabet A in their names.
+
+SELECT ENAME
+    -> FROM EMPLOYEE
+    -> WHERE ENAME LIKE '_A%';
++--------+
+| ENAME  |
++--------+
+| WARD   |
+| MARTIN |
+| JAMES  |
++--------+
+
+3.Display the names of employees whose name is exactly five characters in length.
+
+SELECT ENAME
+    -> FROM EMPLOYEE
+    -> WHERE ENAME LIKE '_____';
++-------+
+| ENAME |
++-------+
+| SMITH |
+| ALLEN |
+| JONES |
+| BLAKE |
+| CLARK |
+| SCOTT |
+| ADAMS |
+| JAMES |
++-------+
+
+4.Display the names of employees whose names have second alphabet A in their names.
+
+SELECT ENAME
+    -> FROM EMPLOYEE
+    -> WHERE ENAME LIKE '_A%';
++--------+
+| ENAME  |
++--------+
+| WARD   |
+| MARTIN |
+| JAMES  |
++--------+
+
+5.Display the names of employees who are not working as salesman or clerk or analyst.
+
+SELECT ENAME
+    -> FROM EMPLOYEE
+    -> WHERE JOB NOT IN ('SALESMAN', 'CLERK', 'ANALYST');
++-------+
+| ENAME |
++-------+
+| JONES |
+| BLAKE |
+| CLARK |
+| KING  |
++-------+
+
+6.Display the name of the employee along with their annual salary (sal*12). The name of the employee earning highest salary should appear first.
+
+SELECT ENAME, (SAL * 12) AS ANNUAL_SALARY
+    -> FROM EMPLOYEE
+    -> ORDER BY SAL DESC;
++--------+---------------+
+| ENAME  | ANNUAL_SALARY |
++--------+---------------+
+| KING   |         60000 |
+| SCOTT  |         36000 |
+| FORD   |         36000 |
+| JONES  |         35700 |
+| BLAKE  |         34200 |
+| CLARK  |         29400 |
+| ALLEN  |         19200 |
+| TURNER |         18000 |
+| MILLER |         15600 |
+| MARTIN |         15000 |
+| WARD   |         15000 |
+| ADAMS  |         13200 |
+| JAMES  |         11400 |
+| SMITH  |          9600 |
++--------+---------------+
+
+7.Display name, sal, hra, pf, da, totalsal for each employee. The output should be in the order of total sal, hra 15% of sal, da 10% of sal, pf 5% of sal. Total salary will be (sal*hra*da)-pf.
+
+SELECT
+    ->   ENAME,
+    ->   SAL,
+    ->   (SAL * 0.15) AS HRA,
+    ->   (SAL * 0.10) AS DA,
+    ->   (SAL * 0.05) AS PF,
+    ->   (SAL + (SAL * 0.15) + (SAL * 0.10) - (SAL * 0.05)) AS TOTALSAL
+    -> FROM EMPLOYEE
+    -> ORDER BY TOTALSAL, HRA;
++--------+------+--------+--------+--------+----------+
+| ENAME  | SAL  | HRA    | DA     | PF     | TOTALSAL |
++--------+------+--------+--------+--------+----------+
+| SMITH  |  800 | 120.00 |  80.00 |  40.00 |   960.00 |
+| JAMES  |  950 | 142.50 |  95.00 |  47.50 |  1140.00 |
+| ADAMS  | 1100 | 165.00 | 110.00 |  55.00 |  1320.00 |
+| WARD   | 1250 | 187.50 | 125.00 |  62.50 |  1500.00 |
+| MARTIN | 1250 | 187.50 | 125.00 |  62.50 |  1500.00 |
+| MILLER | 1300 | 195.00 | 130.00 |  65.00 |  1560.00 |
+| TURNER | 1500 | 225.00 | 150.00 |  75.00 |  1800.00 |
+| ALLEN  | 1600 | 240.00 | 160.00 |  80.00 |  1920.00 |
+| CLARK  | 2450 | 367.50 | 245.00 | 122.50 |  2940.00 |
+| BLAKE  | 2850 | 427.50 | 285.00 | 142.50 |  3420.00 |
+| JONES  | 2975 | 446.25 | 297.50 | 148.75 |  3570.00 |
+| FORD   | 3000 | 450.00 | 300.00 | 150.00 |  3600.00 |
+| SCOTT  | 3000 | 450.00 | 300.00 | 150.00 |  3600.00 |
+| KING   | 5000 | 750.00 | 500.00 | 250.00 |  6000.00 |
++--------+------+--------+--------+--------+----------+
+
+8.Update the salary of each employee by 10% increment who are not eligible for commission.
+
+UPDATE EMPLOYEE
+    -> SET SAL = SAL + (SAL * 0.10)
+    -> WHERE COMM IS NULL;
+
+9.Display those employees whose salary is more than 3000 after giving 20% increment.
+
+SELECT ENAME, (SAL * 1.20) AS INCREMENTED_SALARY
+    -> FROM EMPLOYEE
+    -> WHERE (SAL * 1.20) > 3000;
++-------+--------------------+
+| ENAME | INCREMENTED_SALARY |
++-------+--------------------+
+| JONES |            3927.60 |
+| BLAKE |            3762.00 |
+| CLARK |            3234.00 |
+| SCOTT |            3960.00 |
+| KING  |            6600.00 |
+| FORD  |            3960.00 |
++-------+--------------------+
+
+10.Display those employees whose salary contains atleast 3 digits.
+
+SELECT ENAME, SAL
+    -> FROM EMPLOYEE
+    -> WHERE LENGTH(SAL) >= 3;
++--------+------+
+| ENAME  | SAL  |
++--------+------+
+| SMITH  |  880 |
+| ALLEN  | 1600 |
+| WARD   | 1250 |
+| JONES  | 3273 |
+| MARTIN | 1250 |
+| BLAKE  | 3135 |
+| CLARK  | 2695 |
+| SCOTT  | 3300 |
+| KING   | 5500 |
+| TURNER | 1500 |
+| ADAMS  | 1210 |
+| JAMES  | 1045 |
+| FORD   | 3300 |
+| MILLER | 1430 |
++--------+------+
